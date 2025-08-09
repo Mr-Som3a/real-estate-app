@@ -30,8 +30,8 @@ const server = http.createServer(app)
 app.use(express.json());
 app.use(cookieParser())
 app.use(cors({
-    origin:['http://localhost:6001'],
-    credentials:true
+    origin:['http://localhost:5173','http://localhost:4001'],
+    credentials:true,
 }))
 app.use(helmet())
 
@@ -52,13 +52,14 @@ app.use(fileUpload({
 app.use("/api/auth",authRouter)
 app.use("/api/users",authority,userRouter)
 app.use("/api/chat",authority, chatRouter)
-app.use("/api/post",authority, postRouter) 
+app.use("/api/posts",authority, postRouter) 
 
 
 //  SERVER + DB CONNETION
 
 server.listen(PORT,()=>{
     console.log('server connected on port : '+ PORT)
+    
 })
 
 process.on('SIGINT', Shutdown);   // Ctrl+C

@@ -1,23 +1,25 @@
-import prisma from "../config/prisma.js";
+
 import { v2 as cloudinary } from "cloudinary";
+import prisma from "../config/prisma.js";
+
+export const getUsers = async (req, res) => {
+  try {
+    const users = await prisma.user.findMany();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 export const getUser = async (req, res) => {
-  const { userId } = req.params;
+  const id= parseInt(req.params.userId);
   try {
     const user = await prisma.user.findUnique({
       where: id,
     });
     res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({ message: error });
-  }
-};
-export const getUsers = async (req, res) => {
-  try {
-    const users = await prisma.user.findMany();
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: error.message });
   }
 };
 

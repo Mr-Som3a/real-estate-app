@@ -36,7 +36,7 @@ export const Signup = async (req, res) => {
     let fullToken = "Bearer " + token;
     res
       .cookie("auth-x", fullToken, {
-        maxAge: 1000 * 60 * 60,
+        maxAge: 1000 * 60 * 60 ,
         httpOnly: true,
         sameSite: "strict",
       })
@@ -60,7 +60,7 @@ export const Login = async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
-    const isMatch = ComparePassword(password, user.password);
+    const isMatch = await ComparePassword(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
@@ -75,7 +75,8 @@ export const Login = async (req, res) => {
       })
       .status(200)
       .json({ token, user });
-  } catch (error) {
+    } catch (error) {
+      
     res.status(500).json({ message: error.message });
   } finally {
     await prisma.$disconnect();
@@ -84,8 +85,10 @@ export const Login = async (req, res) => {
 
 export const Logout = (req, res) => {
   try {
-    // todo : integrate with socket.io
-    res.clearCookie();
+    res.clearCookie('auth-x', {
+      httpOnly: true,
+      sameSite: 'strict'
+    }).json({message:'done'})
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

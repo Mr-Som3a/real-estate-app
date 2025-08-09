@@ -16,12 +16,12 @@ const Sidebar = ({open,setOpen}) => {
         
        <div className="h-screen mt-20">
          <ul className="menu items-center gap-8  text-2xl h-4/6 w-full  rounded-box">
-            <li>Home</li>
-            <li>About</li>
-            <li>Contact</li>
-            <li>Agents</li>
-            <li>login</li>
-            <li>sign up</li>
+            <li className="hover:translate-0.5 duration-100 ease-in-out md:cursor-pointer">Home</li>
+            <li className="hover:translate-0.5 duration-100 ease-in-out md:cursor-pointer">About</li>
+            <li className="hover:translate-0.5 duration-100 ease-in-out md:cursor-pointer">Contact</li>
+            <li className="hover:translate-0.5 duration-100 ease-in-out md:cursor-pointer">Agents</li>
+            <li className="hover:translate-0.5 duration-100 ease-in-out md:cursor-pointer">login</li>
+            <li className="hover:translate-0.5 duration-100 ease-in-out md:cursor-pointer">sign up</li>
         </ul>
        </div>
 

@@ -7,6 +7,10 @@ const HashingPassword = async (plainPassword) => {
 };
 
 const ComparePassword =async (plainPassword, SavedPassword) => {
-    return bcrypt.compare(plainPassword,SavedPassword)
-}
-export {HashingPassword , ComparePassword }
+    
+  return await bcrypt.compare(plainPassword,SavedPassword)
+
+  }
+
+
+  export {HashingPassword , ComparePassword }
