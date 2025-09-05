@@ -6,13 +6,11 @@ import { getAuthUser } from "../store/slices/auth";
 const LandingPage = () => {
   const [option, setOption] = useState(null);
   const dispatch = useDispatch()
-  const {authUser} = useSelector(state=>state.auth)
   useEffect( ()=>{
     dispatch(getAuthUser())
   },[])
-  console.log(authUser,'hel')
   return (
-    <main className="raltive px-10 md:px-20 min-h-svh md:grid md:grid-flow-col  ">
+    <main className="raltive px-10 md:px-20 h-screen md:grid md:grid-flow-col  ">
       {/* LEFT SIDE  */}
       <div className="py-20 md:w-3/6">
         <div className="flex flex-col gap-16 h-full ">
@@ -73,7 +71,7 @@ const LandingPage = () => {
       </div>
 
       {/* RIGHT SIDE  */}
-      <img className="hidden md:block absolute  right-20 lg:right-22 lg:top-25 w-[25rem] lg:w-[30rem] " src="/bg.png" alt="" />
+      <img className="hidden md:block absolute  right-20 lg:right-22 lg:top-25 w-[20rem] lg:w-[25rem] xl:w-[30rem] " src="/bg.png" alt="" />
     </main>
   );
 };

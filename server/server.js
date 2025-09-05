@@ -52,8 +52,10 @@ app.use(fileUpload({
 app.use("/api/auth",authRouter)
 app.use("/api/users",authority,userRouter)
 app.use("/api/chat",authority, chatRouter)
-app.use("/api/posts",authority, postRouter) 
+app.use("/api/posts", postRouter) 
 
+//  Error Handler
+// app.use(errorHandler)
 
 //  SERVER + DB CONNETION
 

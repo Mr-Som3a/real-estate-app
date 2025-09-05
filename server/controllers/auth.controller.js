@@ -12,11 +12,13 @@ export const CheckAuth = (req, res) => {
 
 export const Signup = async (req, res) => {
   try {
+
     const { email, password, username } = req.body;
 
     const isExist = await prisma.user.findUnique({
       where: { email },
     });
+    console.log(isExist)
     if (isExist) {
       res.status(400).json({ message: "already this email exist" });
     }

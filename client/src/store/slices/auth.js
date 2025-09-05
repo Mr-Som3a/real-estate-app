@@ -20,8 +20,9 @@ export const loginUser = createAsyncThunk("auth/login", async (body, thunkAPI) =
     return thunkAPI.rejectWithValue(error.response?.data?.message)
    }
 });
-export const signupUser = createAsyncThunk("auth/signup", async () => {
-  const { token, newUser } = await signup();
+export const signupUser = createAsyncThunk("auth/signup", async (body) => {
+  const { token, newUser } = await signup(body);
+  console.log(token, newUser)
   localStorage.setItem("token", token);
   return newUser;
 });
@@ -60,13 +61,13 @@ const authSlice = createSlice({
       })
       .addCase(signupUser.fulfilled, (state, action) => {
         state.authUser = action.payload;
+        location.assign('/')
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.authUser = null;
         state.loading=false
       })
       .addCase(loginUser.rejected,(state,action)=>{
-        console.log(action.error,"hhhm2")
         state.error.push(action.error.message)
 
       })

@@ -19,10 +19,10 @@ const Navbar = ({ setOpen ,authUser}) => {
           <button
             name="/"
             onClick={(e) => handeNavigate(e)}
-            className=" flex items-end justify-between cursor-pointer font-bold text-xl"
+            className=" flex space-x-2 items-end justify-between cursor-pointer font-bold text-xl"
           >
-            <img className="w-[2rem]" src="/realState.svg" alt="" />
-            Real State
+            <img className="w-[2rem]" src="/realEstate.svg" alt="" />
+            <div>Real Estate</div>
           </button>
         </div>
         <div className="navbar-center hidden md:flex items-end h-[2rem]">
@@ -88,14 +88,14 @@ const Navbar = ({ setOpen ,authUser}) => {
               <button
                 onClick={(e) => handeNavigate(e)}
                 name="login"
-                className="btn hidden md:block w-[7rem] mx-4 bg-transparent"
+                className="btn border-0 hidden md:block w-[7rem] mx-4 bg-transparent"
               >
                 Log in
               </button>
               <button
                 onClick={(e) => handeNavigate(e)}
                 name="signup"
-                className="btn hidden md:block  w-[7rem] mx-4 bg-amber-200"
+                className="btn hidden md:block  w-[7rem] mx-4 bg-teal-500"
               >
                 Sign up
               </button>
