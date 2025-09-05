@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { MapPin, BedDouble, Bath, Ruler, Home, Heart, Share2, CheckCircle2, ShieldCheck, Car, Leaf } from "lucide-react";
 import {demoProperty} from '../demo.js'
-import AgentWidget from '../widgets/AgentWidget'
+import AgentWidget from '../widgets/agentWidget.jsx'
 import ImageGallery from "../component/ImageGallery.jsx";
 import MortgageCard from "../widgets/mortgageCard.jsx";
 

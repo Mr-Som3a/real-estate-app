@@ -7,18 +7,6 @@ const api = axios.create({
 });
 
 
-// api.interceptors.response.use(
-//   (response) => response, // simply return response if success
-//   (error) => {
-//     if (error.response && error.response.status === 401) {
-//       // For example: redirect to login page
-//       console.warn('Unauthorized - maybe redirect');
-//       window.location.assign('/login')
-//     }
-
-//     return Promise.reject(error);
-//   }
-// );
 
 
 
