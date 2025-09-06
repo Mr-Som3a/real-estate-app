@@ -27,25 +27,39 @@ model User {
 }
 
 model Post {
-  id         Int         @id @default(autoincrement())
-  text       String
-  authorId   Int
-  title      String
-  price      Int
-  images     String[]
-  address    String
-  city       String
-  bedroom    Int
-  bathroom   Int
-  latitude   String
-  longitude  String
-  type       Type
-  property   Property
-  postDetail PostDetail?
-  savedPosts SavedPost[]
+  id          Int         @id @default(autoincrement())
+  title       String
+  address     String
+  price       Int
+  beds        Int
+  baths       Int
+  areaSqft    Int
+  type        String
+  status      String
+  yearBuilt   Int
+  description String
+  features    String[]
+  nearby      String[]
+  images      String[]
+  lat         Float
+  lng         Float
+  agent       Agent?      @relation(fields: [agentId], references: [id])
+  User        User?       @relation(fields: [userId], references: [id])
+  userId      Int?
+  PostDetail  PostDetail?
+  SavedPost   SavedPost?
+  agentId     Int?
+}
 
-  createdAt DateTime @default(now())
-  author    User     @relation(fields: [authorId], references: [id])
+model Agent {
+  id      Int    @id @default(autoincrement())
+  name    String
+  phone   String
+  email   String
+  company String
+  avatar  String
+  posts    Post[] 
+
 }
 
 model PostDetail {

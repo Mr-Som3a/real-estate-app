@@ -30,7 +30,7 @@ const server = http.createServer(app)
 app.use(express.json());
 app.use(cookieParser())
 app.use(cors({
-    origin:['http://localhost:5173','http://localhost:4001'],
+    origin:['http://localhost:5173','http://localhost:4001',"https://real-estate-app-kd5e.onrender.com"],
     credentials:true,
 }))
 app.use(helmet())
