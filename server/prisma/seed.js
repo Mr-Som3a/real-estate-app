@@ -1,120 +1,69 @@
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
-import { faker } from '@faker-js/faker';
+import { PrismaClient } from "@prisma/client";
+import { faker } from "@faker-js/faker";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  // Clean existing data (optional in dev)
-  await prisma.message.deleteMany();
-  await prisma.savedPost.deleteMany();
-  await prisma.postDetail.deleteMany();
-  await prisma.post.deleteMany();
-  await prisma.user.deleteMany();
+  // Create an Agent first (relation requirement)
+  const agent = await prisma.agent.create({
+    data: {
+      name: "San AlSan",
+      phone: "+971 50 123 4567",
+      email: "sara@homes.example",
+      company: "Harbor Homes Realty",
+      avatar:
+        "https://images.unsplash.com/photo-1616805765352-beedbad46b2a?w=600&auto=format&fit=crop&q=60",
+    },
+  });
 
-  const passwordHash = await bcrypt.hash('password123', 10);
+  // Demo images pool
+  const images = [
+    "https://images.unsplash.com/photo-1515263487990-61b07816b324?w=600",
+    "https://plus.unsplash.com/premium_photo-1684175656320-5c3f701c082c?w=600",
+    "https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=2069",
+    "https://images.unsplash.com/photo-1501183638710-841dd1904471?q=80&w=2069",
+  ];
 
-  // ---- Create Users ----
-  const users = [];
-  for (let i = 0; i < 10; i++) {
-    const user = await prisma.user.create({
+  // Seed 20 posts
+  for (let i = 1; i <= 20; i++) {
+    await prisma.post.create({
       data: {
-        email: faker.internet.email(),
-        username: faker.internet.userName(),
-        password: passwordHash,
-        imgUrl: faker.image.avatar(),
-      }
-    });
-    users.push(user);
-  }
-
-  // ---- Create Posts with Details ----
-  const posts = [];
-  for (let i = 0; i < 20; i++) {
-    const author = faker.helpers.arrayElement(users);
-
-    const post = await prisma.post.create({
-      data: {
-        title: faker.lorem.words(4),
-        text: faker.lorem.sentences(2),
-        price: faker.number.int({ min: 500, max: 500000 }),
-        images: [
-          faker.image.urlPicsumPhotos({ width: 800, height: 600 }),
-          faker.image.urlPicsumPhotos({ width: 800, height: 600 })
+        title: `Modern ${faker.number.int({ min: 1, max: 5 })}BR Apartment with Marina View #${i}`,
+        address: faker.location.streetAddress({ useFullAddress: true }),
+        price: faker.number.int({ min: 800000, max: 4000000 }),
+        beds: faker.number.int({ min: 1, max: 5 }),
+        baths: faker.number.int({ min: 1, max: 4 }),
+        areaSqft: faker.number.int({ min: 900, max: 3200 }),
+        type: "Apartment",
+        status: faker.helpers.arrayElement(["For Sale", "For Rent"]),
+        yearBuilt: faker.number.int({ min: 2010, max: 2023 }),
+        description:
+          "Spacious apartment with floor-to-ceiling windows, balcony, and excellent community facilities.",
+        features: [
+          "Fully equipped gym",
+          "Infinity pool",
+          "24/7 security",
+          "Covered parking",
+          "Pets allowed",
+          "Smart home system",
         ],
-        address: faker.location.streetAddress(),
-        city: faker.location.city(),
-        bedroom: faker.number.int({ min: 1, max: 5 }),
-        bathroom: faker.number.int({ min: 1, max: 4 }),
-        latitude: faker.location.latitude().toString(),
-        longitude: faker.location.longitude().toString(),
-        type: faker.helpers.arrayElement(['buy', 'rent']),
-        property: faker.helpers.arrayElement(['apartment', 'house', 'condo', 'land']),
-        authorId: author.id,
-        postDetail: {
-          create: {
-            desc: faker.lorem.paragraph(),
-            utilities: faker.helpers.arrayElement(['Water, Electricity', 'Water only', 'None']),
-            pet: faker.helpers.arrayElement(['Allowed', 'Not allowed']),
-            income: faker.number.int({ min: 2000, max: 8000 }) + ' USD/month',
-            size: faker.number.int({ min: 50, max: 400 }),
-            school: faker.number.int({ min: 0, max: 10 }),
-            bus: faker.number.int({ min: 0, max: 10 }),
-            restaurant: faker.number.int({ min: 0, max: 10 })
-          }
-        }
-      }
-    });
-
-    posts.push(post);
-  }
-
-  // ---- Create SavedPosts ----
-  for (let i = 0; i < 15; i++) {
-    const user = faker.helpers.arrayElement(users);
-    const post = faker.helpers.arrayElement(posts);
-
-    // Avoid duplicates by try-catch
-    try {
-      await prisma.savedPost.create({
-        data: {
-          userId: user.id,
-          postId: post.id
-        }
-      });
-    } catch (err) {
-      // Ignore duplicate constraint errors
-    }
-  }
-
-  // ---- Create Messages ----
-  for (let i = 0; i < 30; i++) {
-    const sender = faker.helpers.arrayElement(users);
-    let receiver = faker.helpers.arrayElement(users);
-
-    // Ensure sender != receiver
-    while (receiver.id === sender.id) {
-      receiver = faker.helpers.arrayElement(users);
-    }
-
-    await prisma.message.create({
-      data: {
-        senderId: sender.id,
-        receiverId: receiver.id,
-        text: faker.lorem.sentence(),
-        imgUrl: faker.datatype.boolean()
-          ? faker.image.urlPicsumPhotos({ width: 600, height: 400 })
-          : null
-      }
+        nearby: ["Metro (5 min)", "Mall (10 min)", "Beach (7 min)"],
+        images,
+        lat: 25.08 + Math.random() * 0.01,
+        lng: 55.14 + Math.random() * 0.01,
+        agent: {
+          connect: { id: agent.id },
+        },
+      },
     });
   }
 
-  console.log('✅ Random seed data inserted successfully!');
+  console.log("✅ Seeded 20 demo posts with one agent");
 }
 
 main()
-  .catch(e => {
-    console.error(e);
+  .catch((e) => {
+    console.error("❌ Seed failed:", e);
     process.exit(1);
   })
   .finally(async () => {

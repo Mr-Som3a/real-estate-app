@@ -1,5 +1,5 @@
 // --- Demo data. Replace with real data from your API/store.
-export const demoProperty = {
+export const demoPost = {
   id: "prop-1024",
   title: "Modern 3BR Apartment with Marina View",
   address: "Dubai Marina, Dubai, UAE",
