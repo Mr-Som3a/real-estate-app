@@ -8,7 +8,6 @@ import EstateMap from "../component/estateMap";
 const PostsPage = () => {
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.posts);
-  
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);

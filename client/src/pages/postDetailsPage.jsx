@@ -4,6 +4,7 @@ import {demoProperty} from '../demo.js'
 import AgentWidget from '../widgets/agentWidget.jsx'
 import ImageGallery from "../component/ImageGallery.jsx";
 import MortgageCard from "../widgets/mortgageCard.jsx";
+import { useLocation } from "react-router-dom";
 
 
 // --- Map component (simple, drop-in). Replace with your preferred map later.
@@ -20,12 +21,12 @@ function formatAED(n) {
   return new Intl.NumberFormat("en-AE", { style: "currency", currency: "AED", maximumFractionDigits: 0 }).format(n);
 }
 
-export default function PostDetails({ property = demoProperty }) {
-
+export default function PostDetails() {
+  const estate = useLocation().state || demoProperty
   const [favorited, setFavorited] = useState(false);
   
-
-  const pricePerSqft = useMemo(() => Math.round(property.priceAED / property.areaSqft), [property]);
+console.log(estate)
+  const pricePerSqft = useMemo(() => Math.round(estate.price / estate.areaSqft), [estate]);
 
   const copyLink = async () => {
     try {
@@ -47,7 +48,7 @@ export default function PostDetails({ property = demoProperty }) {
           <ul>
             <li><a>Home</a></li>
             <li><a>Properties</a></li>
-            <li>{property.type}</li>
+            <li>{estate.type}</li>
           </ul>
         </div>
 
@@ -55,12 +56,12 @@ export default function PostDetails({ property = demoProperty }) {
         <div className="flex items-start justify-between gap-4 mb-4">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="badge badge-primary bg-teal-600 badge-lg">{property.status}</span>
-              <span className="badge badge-ghost">{property.type}</span>
-              <span className="badge badge-ghost">Built {property.yearBuilt}</span>
+              <span className="badge badge-primary bg-teal-600 badge-lg">{estate.status}</span>
+              <span className="badge badge-ghost">{estate.type}</span>
+              <span className="badge badge-ghost">Built {estate.yearBuilt}</span>
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold leading-tight">{property.title}</h1>
-            <p className="mt-1 flex items-center gap-2 text-base-content/70"><MapPin className="w-4 h-4" /> {property.address}</p>
+            <h1 className="text-2xl md:text-3xl font-bold leading-tight">{estate.title}</h1>
+            <p className="mt-1 flex items-center gap-2 text-base-content/70"><MapPin className="w-4 h-4" /> {estate.address}</p>
           </div>
           <div className="flex items-center gap-2">
             <button className={`btn btn-circle ${favorited ? "btn-secondary" : "btn-ghost"}`} aria-label="Save" onClick={() => setFavorited((v) => !v)}>
@@ -75,7 +76,7 @@ export default function PostDetails({ property = demoProperty }) {
         {/* Sticky Price Bar on desktop */}
         <div className="mb-4">
           <div className="flex items-end gap-3">
-            <div className="text-3xl md:text-4xl font-extrabold">{formatAED(property.priceAED)}</div>
+            <div className="text-3xl md:text-4xl font-extrabold">{formatAED(estate.price)}</div>
             <div className="text-base-content/70">({pricePerSqft} AED/sqft)</div>
           </div>
         </div>
@@ -84,30 +85,30 @@ export default function PostDetails({ property = demoProperty }) {
           {/* Left: Gallery + Details */}
           <div className="lg:col-span-2 flex flex-col gap-6">
             {/* Image Gallery */}
-            <ImageGallery property={property} />
+            <ImageGallery property={estate} />
 
             {/* Key Facts */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <div className="stat bg-base-100 rounded-2xl shadow-sm">
                 <div className="stat-figure text-primary"><BedDouble className="w-6 h-6" /></div>
                 <div className="stat-title">Bedrooms</div>
-                <div className="stat-value text-xl">{property.beds}</div>
+                <div className="stat-value text-xl">{estate.beds}</div>
               </div>
               <div className="stat bg-base-100 rounded-2xl shadow-sm">
                 <div className="stat-figure text-primary"><Bath className="w-6 h-6" /></div>
                 <div className="stat-title">Bathrooms</div>
-                <div className="stat-value text-xl">{property.baths}</div>
+                <div className="stat-value text-xl">{estate.baths}</div>
               </div>
               <div className="stat bg-base-100 rounded-2xl shadow-sm">
                 <div className="stat-figure text-primary"><Ruler className="w-6 h-6" /></div>
                 <div className="stat-title">Area</div>
-                <div className="stat-value text-xl">{property.areaSqft}</div>
+                <div className="stat-value text-xl">{estate.areaSqft}</div>
                 <div className="stat-desc">sqft</div>
               </div>
               <div className="stat bg-base-100 rounded-2xl shadow-sm">
                 <div className="stat-figure text-primary"><Home className="w-6 h-6" /></div>
                 <div className="stat-title">Type</div>
-                <div className="stat-value text-xl">{property.type}</div>
+                <div className="stat-value text-xl">{estate.type}</div>
               </div>
             </div>
 
@@ -123,9 +124,9 @@ export default function PostDetails({ property = demoProperty }) {
                 <div className="mt-4">
                   {/* Overview */}
                   <div id="panel-overview" aria-labelledby="tab-overview" className="prose max-w-none">
-                    <p>{property.description}</p>
+                    <p>{estate.description}</p>
                     <ul>
-                      {property.nearby.map((n, i) => (
+                      {estate.nearby.map((n, i) => (
                         <li key={i}>{n}</li>
                       ))}
                     </ul>
@@ -134,7 +135,7 @@ export default function PostDetails({ property = demoProperty }) {
                   {/* Features */}
                   <div id="panel-features" aria-labelledby="tab-features" className="mt-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {property.features.map((f, i) => (
+                      {estate.features.map((f, i) => (
                         <div key={i} className="flex items-center gap-2 p-3 rounded-xl border border-base-300">
                           <CheckCircle2 className="w-5 h-5 text-primary" />
                           <span>{f}</span>
@@ -154,7 +155,7 @@ export default function PostDetails({ property = demoProperty }) {
 
                   {/* Map */}
                   <div id="panel-map" aria-labelledby="tab-map" className="mt-4">
-                    <PropertyMap lat={property.lat} lng={property.lng} address={property.address} />
+                    <PropertyMap lat={estate.lat} lng={estate.lng} address={estate.address} />
                   </div>
                 </div>
               </div>
@@ -165,10 +166,10 @@ export default function PostDetails({ property = demoProperty }) {
           <div className="lg:col-span-1">
             <div className="lg:sticky lg:top-6 flex flex-col gap-6">
               {/* Agent Card */}
-              <AgentWidget property={property} />
+              <AgentWidget property={estate} />
 
               {/* Quick Mortgage Estimator */}
-              <MortgageCard priceAED={property.priceAED} />
+              <MortgageCard price={estate.price} />
             </div>
           </div>
         </div>

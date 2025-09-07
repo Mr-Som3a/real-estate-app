@@ -10,6 +10,7 @@ import authority from "./middleware/authenticate.js"
 import authRouter from "./routes/auth.route.js"
 import Shutdown from "./config/db.config.js"
 import userRouter from "./routes/user.route.js"
+import agentRouter from "./routes/agent.route.js"
 import chatRouter from "./routes/chat.route.js"
 import postRouter from "./routes/post.route.js"
 
@@ -51,6 +52,7 @@ app.use(fileUpload({
 //  Routes
 app.use("/api/auth",authRouter)
 app.use("/api/users",authority,userRouter)
+app.use("/api/agents",agentRouter)
 app.use("/api/chat",authority, chatRouter)
 app.use("/api/posts", postRouter) 
 

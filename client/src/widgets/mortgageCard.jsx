@@ -4,18 +4,18 @@ import { useMemo, useState } from "react";
 function formatAED(n) {
   return new Intl.NumberFormat("en-AE", { style: "currency", currency: "AED", maximumFractionDigits: 0 }).format(n);
 }
-export default function MortgageCard({ priceAED }) {
+export default function MortgageCard({ price }) {
   const [down, setDown] = useState(20);
   const [rate, setRate] = useState(4.5);
   const [years, setYears] = useState(25);
 
   const { monthly } = useMemo(() => {
-    const P = priceAED * (1 - down / 100);
+    const P = price * (1 - down / 100);
     const r = rate / 100 / 12;
     const n = years * 12;
     const m = r === 0 ? P / n : (P * r) / (1 - Math.pow(1 + r, -n));
     return { monthly: m };
-  }, [priceAED, down, rate, years]);
+  }, [price, down, rate, years]);
 
   return (
     <div className="card bg-base-100 shadow-xl">

@@ -1,9 +1,9 @@
 // --- Demo data. Replace with real data from your API/store.
-export const demoPost = {
+export const demoProperty = {
   id: "prop-1024",
   title: "Modern 3BR Apartment with Marina View",
   address: "Dubai Marina, Dubai, UAE",
-  priceAED: 2850000,
+  price: 2850000,
   beds: 3,
   baths: 3,
   areaSqft: 1640,
