@@ -6,14 +6,15 @@ import { demoProperty } from '../demo';
 const AgentWidget = ({property}) => {
     const [tourDate, setTourDate] = useState("");
   const [tourTime, setTourTime] = useState("");
-  const [data,setData]= useState(null||demoProperty.agent)
+  const [agent,setAgent]= useState(null||demoProperty.agent)
   useEffect(()=>{
     const fetch=async()=>{
-      const data = await axios.get(import.meta.env.VITE_API_URL+"/"+property.agentId)
-      setData(data)
+      const data = await axios.get(import.meta.env.VITE_API_URL+"/api/agents/"+property.agentId)
+      setAgent(data)
     }
     fetch()
   },[property])
+  
   return (
     <>
     {/* Agent Card */}
@@ -22,20 +23,20 @@ const AgentWidget = ({property}) => {
                   <div className="flex items-center gap-3">
                     <div className="avatar">
                       <div className="w-14 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                        <img src={property.agent?.avatar||data.avatar} alt={property.agent?.name||data.name} />
+                        <img src={agent?.avatar} alt={agent?.name} />
                       </div>
                     </div>
                     <div>
-                      <div className="font-semibold">{property.agent?.name||data.name}</div>
-                      <div className="text-sm text-base-content/70">{property.agent?.company||data.company}</div>
+                      <div className="font-semibold">{agent?.name}</div>
+                      <div className="text-sm text-base-content/70">{agent?.company}</div>
                     </div>
                   </div>
 
                   <div className="mt-4 grid grid-cols-2 gap-2">
-                    <a className="btn btn-outline w-full" href={`tel:${property.agent?.phone||data.phone}`}>
+                    <a className="btn btn-outline w-full" href={`tel:${agent?.phone}`}>
                       <Phone className="w-4 h-4" /> Call
                     </a>
-                    <a className="btn btn-outline w-full" href={`mailto:${property.agent?.email||data.email}`}>
+                    <a className="btn btn-outline w-full" href={`mailto:${agent?.email}`}>
                       <Mail className="w-4 h-4" /> Email
                     </a>
                   </div>

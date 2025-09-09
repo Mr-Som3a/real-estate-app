@@ -3,34 +3,40 @@ import LandingPage from "./pages/landingPage";
 import Posts from "./pages/postsPage";
 import PostDetails from "./pages/postDetailsPage";
 import AuthPage from "./pages/authPage";
-
+import Layout from "./layout";
+import NotFoundPage from "./component/404";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage />,
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <LandingPage />,
+      },
+      {
+        path: "/posts",
+        element: <Posts />,
+      },
+      {
+        path: "/postDetails",
+        element: <PostDetails />,
+      },
+      {
+        path: "/signup",
+        element: <AuthPage />,
+      },
+      {
+        path: "/login",
+        element: <AuthPage />,
+      },
+    ],
   },
   {
-    path:"/posts",
-    element: <Posts />
+    path: "*",
+    element: <NotFoundPage/>,
   },
-  {
-    path:"/postDetails",
-    element: <PostDetails/>,
-  },
-  {
-    path:"/signup",
-    element:<AuthPage/>
-  },
-  {
-    path:"/login",
-    element:<AuthPage/>
-  },
-  {
-    path:"*",
-    element:<>404</>
-  }
 ]);
 
-
-export default router
+export default router;

@@ -43,28 +43,28 @@ export const createPost = async (req, res) => {
 
 export const editPost = async (req, res) => {
   try {
-    const { title, price, address } = req.body;
+    const id  = parseInt(req.params.id)
+    const { images } = req.body;
     const editPost = await prisma.post.update({
+      where:{id},
       data: {
-        title,
-        price,
-        address,
+        images
       },
     });
-    res.status(200).json(editPost);
+    res.status(200).json({message:"post updated",editPost});
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message});
   }
 };
 
 export const deletePost = async (req, res) => {
   try {
-    const { id } = req.params;
-    const editPost = await prisma.post.delete({
-      where: id,
+    const id  = parseInt(req.params.id);
+    const deletedPost = await prisma.post.delete({
+      where: {id:id}
     });
 
-    res.status(200).json({ message: "post deleted succefuly", editPost });
+    res.status(200).json({ message: "post deleted succefuly", deletedPost });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

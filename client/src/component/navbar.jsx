@@ -1,11 +1,14 @@
 import { useDispatch } from "react-redux";
 import { isLoading, logoutUser } from "../store/slices/auth";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ setOpen ,authUser}) => {
   const dispatch=useDispatch()
-   
+  const navigate = useNavigate()
   const handeNavigate = (e) => {
-    window.location.href = `${e.target.name}`;
+    console.log(e.target.name)
+    navigate(`${e.target.name}`)
+
   };
   const handleLogout = ()=>{
 
@@ -14,15 +17,15 @@ const Navbar = ({ setOpen ,authUser}) => {
   }
   return (
     <>
-      <div className="navbar z-100 px-10 lg:px-20 bg-base-100 shadow-sm">
+      <div className="navbar z-100 px-10 lg:px-20 bg-base-100  ">
         <div className="navbar-start">
           <button
-            name="/"
             onClick={(e) => handeNavigate(e)}
-            className=" flex space-x-2 items-end justify-between cursor-pointer font-bold text-xl"
+            name="/"
+            className=" flex space-x-2 items-end  justify-between cursor-pointer font-bold text-xl"
           >
             <img className="w-[2rem]" src="/realEstate.svg" alt="" />
-            <div>Real Estate</div>
+            Real Estate
           </button>
         </div>
         <div className="navbar-center hidden md:flex items-end h-[2rem]">
@@ -87,14 +90,14 @@ const Navbar = ({ setOpen ,authUser}) => {
             <>
               <button
                 onClick={(e) => handeNavigate(e)}
-                name="login"
+                name="/login"
                 className="btn border-0 hidden md:block w-[7rem] mx-4 bg-transparent"
               >
                 Log in
               </button>
               <button
                 onClick={(e) => handeNavigate(e)}
-                name="signup"
+                name="/signup"
                 className="btn hidden md:block  w-[7rem] mx-4 bg-teal-500"
               >
                 Sign up

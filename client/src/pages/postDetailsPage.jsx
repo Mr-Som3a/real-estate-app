@@ -25,6 +25,7 @@ export default function PostDetails() {
   const estate = useLocation().state || demoProperty
   const [favorited, setFavorited] = useState(false);
   
+  
 console.log(estate)
   const pricePerSqft = useMemo(() => Math.round(estate.price / estate.areaSqft), [estate]);
 
@@ -37,7 +38,9 @@ console.log(estate)
         el.classList.remove("hidden");
         setTimeout(() => el.classList.add("hidden"), 1500);
       }
-    } catch {}
+    } catch(error) {
+      console.log(error)
+    }
   };
 
   return (
@@ -108,7 +111,7 @@ console.log(estate)
               <div className="stat bg-base-100 rounded-2xl shadow-sm">
                 <div className="stat-figure text-primary"><Home className="w-6 h-6" /></div>
                 <div className="stat-title">Type</div>
-                <div className="stat-value text-xl">{estate.type}</div>
+                <div className="stat-value md:text-sm text-xl">{estate.type}</div>
               </div>
             </div>
 

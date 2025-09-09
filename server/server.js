@@ -5,7 +5,7 @@ import cors from "cors"
 import http from 'http'
 import cookieParser from "cookie-parser"
 
-import authority from "./middleware/authenticate.js"
+// import authority from "./middleware/authenticate.js"
 
 import authRouter from "./routes/auth.route.js"
 import Shutdown from "./config/db.config.js"
@@ -51,9 +51,9 @@ app.use(fileUpload({
 
 //  Routes
 app.use("/api/auth",authRouter)
-app.use("/api/users",authority,userRouter)
+app.use("/api/users",userRouter)
 app.use("/api/agents",agentRouter)
-app.use("/api/chat",authority, chatRouter)
+app.use("/api/chat", chatRouter)
 app.use("/api/posts", postRouter) 
 
 //  Error Handler

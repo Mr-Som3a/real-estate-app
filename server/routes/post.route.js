@@ -5,8 +5,8 @@ import authority from '../middleware/authenticate.js'
 const router = Router()
 
 router.get("/",getPosts)  //done
-router.post("/",authority,createPost)   //done
-router.put("/",authority,editPost)  //done
-router.delete("/",authority,deletePost) //done
+router.post("/",createPost)   //done
+router.put("/:id",editPost)  //done
+router.delete("/:id",deletePost) //done
 
 export default router
