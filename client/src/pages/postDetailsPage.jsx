@@ -25,8 +25,6 @@ export default function PostDetails() {
   const estate = useLocation().state || demoProperty
   const [favorited, setFavorited] = useState(false);
   
-  
-console.log(estate)
   const pricePerSqft = useMemo(() => Math.round(estate.price / estate.areaSqft), [estate]);
 
   const copyLink = async () => {

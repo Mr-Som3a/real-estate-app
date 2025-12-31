@@ -5,9 +5,11 @@ import { fetchPosts } from "../store/slices/post";
 import LoadingSpinner from "../component/loadingSpinner";
 import { Bed, DollarSign, MapPin } from "lucide-react";
 import EstateMap from "../component/estateMap";
+import { demoProperty } from "../demo";
 const PostsPage = () => {
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.posts);
+  
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
@@ -35,7 +37,7 @@ const [selectedEstate, setSelectedEstate] = useState(null)
 
           {/* Todo enhance UX */}
           {!posts ? <div>Not Posts founds!</div> :
-            (posts.length === 0 && <LoadingSpinner />) || <PostWidget setSelectedEstate={setSelectedEstate} posts={posts} />}
+            (posts.length === 0 && <PostWidget setSelectedEstate={setSelectedEstate} posts={demoProperty} />) || <PostWidget setSelectedEstate={setSelectedEstate} posts={posts} />}
         
       </div>
 
